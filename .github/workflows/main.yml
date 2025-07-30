@@ -1,21 +1,33 @@
-name: 🚀 Deploy to SWA
+name: Deploy to Azure Static Web Apps
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Deploy to Azure Static Web Apps 🚀
-        uses: svrooij/azure-static-web-app-deploy-action@main # Replace 'main' with a specific tag for security reasons
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Azure
+        uses: azure/login@v1
         with:
-          tenant_id: ${{ secrets.AZURE_TENANTID }} # be sure to set this secret in your repository settings
-          client_id: ${{ secrets.AZURE_CLIENTID }} # be sure to set this secret in your repository settings
-          static_web_app_name: 'Testing'
-          app_location: '.'
-          api_location: ''
-          swa_environment: 'production'
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy Static Web App
+        run: |
+          az staticwebapp upload \
+            --name "Testing" \
+            --resource-group "FORDTEST1_group" \
+            --source . \
+            --output-location build
