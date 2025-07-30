@@ -30,8 +30,4 @@ jobs:
  
       - name: Deploy static HTML site to Azure Static Web App
         run: |
-          az staticwebapp upload \
-            --name Testing \
-            --resource-group FORDTEST1_group \
-            --source . \
-            --verbose
+          Get-AzStaticWebApp -ResourceGroupName 'FORDTEST1_group' -Name 'Testing' | Update-AzStaticWebApp
