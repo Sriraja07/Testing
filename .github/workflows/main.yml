@@ -25,8 +25,6 @@ jobs:
       - name: Deploy to Azure Static Web App
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ""
-          action: "upload"
           app_location: "/"
-          output_location: "dist" # or your build output directory
-          skip_app_build: true # if already built
+          output_location: "build"
+          skip_app_build: true
