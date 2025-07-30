@@ -1,33 +1,21 @@
-name: Run Azure Login with OIDC
+name: 🚀 Deploy to SWA
+
 on:
   push:
     branches:
       - main
 
-permissions:
-  id-token: write
-  contents: read
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Azure Login'
-        uses: azure/login@v2.3.0
+      - uses: actions/checkout@v4
+      - name: Deploy to Azure Static Web Apps 🚀
+        uses: svrooij/azure-static-web-app-deploy-action@main # Replace 'main' with a specific tag for security reasons
         with:
-          client-id: ${{ secrets.AZURE_CLIENTID }}
-          tenant-id: ${{ secrets.AZURE_TENANTID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
-
-      - name: 'Run az commands'
-        run: |
-          az account show
-          az group list
-      - name: Azure WebApp
-        uses: Azure/webapps-deploy@v3.0.5
-        with:
-          # Name of the Azure Web App
-          app-name: Testing
-          # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
-          # Enter the resource group name of the web app
-          resource-group-name: FORDTEST1_group
-          
+          tenant_id: ${{ secrets.AZURE_TENANTID }} # be sure to set this secret in your repository settings
+          client_id: ${{ secrets.AZURE_CLIENTID }} # be sure to set this secret in your repository settings
+          static_web_app_name: 'Testing'
+          app_location: '.'
+          api_location: ''
+          swa_environment: 'production'
