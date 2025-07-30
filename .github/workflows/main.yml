@@ -4,10 +4,17 @@ on:
   push:
     branches:
       - main
-
+permissions:
+  issues: write
+  contents: read
+  pull-requests: write
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read 
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to Azure Static Web Apps 🚀
