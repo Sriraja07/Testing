@@ -24,10 +24,13 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANTID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
 
-      - name: Deploy Static Web App
-        run: |
-          az staticwebapp upload \
-            --name "Testing" \
-            --resource-group "FORDTEST1_group" \
-            --source . \
-            --output-location build
+      
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: "" # Leave blank when using OIDC
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/" # Adjust based on your project
+          output_location: "build" # Adjust based on your build output
+
