@@ -1,33 +1,21 @@
-name: Deploy to Azure Static Web App via OIDC + CLI
- 
+name: 🚀 Deploy to SWA
+
 on:
   push:
     branches:
       - main
- 
-permissions:
-  id-token: write
-  contents: read
- 
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
- 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
- 
-      - name: Azure Login using OIDC
-        uses: azure/login@v2
+      - uses: actions/checkout@v4
+      - name: Deploy to Azure Static Web Apps 🚀
+        uses: svrooij/azure-static-web-app-deploy-action@main # Replace 'main' with a specific tag for security reasons
         with:
-          client-id: ${{ secrets.AZURE_CLIENTID }}
-          tenant-id: ${{ secrets.AZURE_TENANTID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTIONID }}
- 
-      - name: Install Azure CLI extension for Static Web Apps
-        run: |
-          az extension add --name staticwebapp
- 
-      - name: Deploy static HTML site to Azure Static Web App
-        run: |
-          Get-AzStaticWebApp -ResourceGroupName 'FORDTEST1_group' -Name 'Testing' | Update-AzStaticWebApp
+          tenant_id: ${{ secrets.AZURE_TENANTID }} # be sure to set this secret in your repository settings
+          client_id: ${{ secrets.AZURE_CLIENTID }} # be sure to set this secret in your repository settings
+          static_web_app_name: 'Testing'
+          app_location: '.'
+          api_location: ''
+          swa_environment: 'production'
