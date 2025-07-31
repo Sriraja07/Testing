@@ -1,9 +1,6 @@
 name: 🚀 Deploy to SWA
 
-on:
-  push:
-    branches:
-      - main
+
 permissions:
   issues: write
   contents: read
